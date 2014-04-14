@@ -24,6 +24,8 @@ public class TrainerObjAI : MonoBehaviour
 	}
 	
 	void Update(){
+		trainer.Update();
+
 		switch(currentState){
 			
 		case States.Idle:{

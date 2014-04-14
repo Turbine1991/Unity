@@ -62,6 +62,10 @@ public abstract class Trainer : Target {
 		}
 	}
 
+	public virtual void Update() {
+
+	}
+
 	public abstract MonoBehaviour GetTrainerBaseObj(); //The base allows generalisation of the commonly used transform class, if the trainer object is needed though trainer, cast it into the object you need
 	public abstract GameObject Instantiate(UnityEngine.Object resource);
 }

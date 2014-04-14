@@ -15,4 +15,8 @@ public class TrainerPlayer : Trainer { //Characteristics specific to the player
 	public override GameObject Instantiate(UnityEngine.Object resource) {
 		return (GameObject)TrainerObjPlayer.Instantiate(resource);
 	}
+
+	public void Update() {
+		base.Update();
+	}
 }

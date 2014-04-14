@@ -19,7 +19,7 @@ public class TrainerObjPlayer : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		trainer.Update();
 	}
 }
 
