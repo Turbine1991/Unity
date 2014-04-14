@@ -21,8 +21,8 @@ public class PokemonDomesticated : MonoBehaviour {
 
 		switch(currentOrder){
 		case Orders.Heel:{
-			var trainerPlayer = trainer as TrainerPlayer;
-			Vector3 direct = trainerPlayer.obj.transform.position - transform.position;
+			var trainerObj = trainer.GetTrainerBaseObj();
+			Vector3 direct = trainerObj.transform.position - transform.position;
 			direct.y = 0;
 			if (letsGo){
 				transform.rotation = Quaternion.LookRotation(direct);
