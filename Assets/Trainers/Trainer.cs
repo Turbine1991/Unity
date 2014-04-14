@@ -40,10 +40,12 @@ public abstract class Trainer : Target {
 
 		poke.thrown = true;
 		GameObject ball = Instantiate(Resources.Load("Pokeball"));
+
 		ball.transform.position = trainerObj.transform.position;
 		ball.rigidbody.AddForce( (trainerObj.transform.forward*2+ trainerObj.transform.up)*400 );
-		ball.GetComponent<Pokeball>().pokemon = poke;
-		ball.GetComponent<Pokeball>().trainer = this;
+		var component = ball.GetComponent<Pokeball>();
+		component.pokemon = poke;
+		component.trainer = this;
 		//gamegui.SetChatWindow(ball.GetComponent<Pokeball>().pokemon.GetName() + "! I choose you!");
 	}
 

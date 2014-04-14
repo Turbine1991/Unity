@@ -124,7 +124,6 @@ public class PokeParty
 
 		var slot = GetSlots()[index];
 		selected = index;
-
 		return slot;
 	}
 	
@@ -166,6 +165,7 @@ public class PokeParty
 			var selected = GetSelectedPokemon();
 			if (selected != null) {
 				trainer.ThrowPokemon(selected);
+				active = selected;
 				return selected;
 			}
 		}

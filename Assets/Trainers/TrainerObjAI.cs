@@ -62,17 +62,21 @@ public class TrainerObjAI : MonoBehaviour
 		}else{
 			if (direct.sqrMagnitude>1)	transform.position += direct;
 			currentPokemon = trainer.party.GetActivePokemon();
-			
-			if (currentPokemon.obj!=null){
-				direct = currentPokemon.obj.transform.position-transform.position;
-			}else{
-				var trainerObj = enemyTrainer.GetTrainerBaseObj();
-				direct = trainerObj.transform.position-transform.position;
+			var party = trainer.party;
+
+			if (!party.HasActive()){
+				party.Select(2);
+				party.ReleaseSelected();
+				//direct = currentPokemon.obj.transform.position-transform.position;
+				//trainer.ThrowPokemon(trainer.party.GetActivePokemon()); //Only 1 pokemon is throwable
+			//}else{
+				//var trainerObj = enemyTrainer.GetTrainerBaseObj();
+				//direct = trainerObj.transform.position-transform.position;
 			}
+
 			direct.y = 0;
 			transform.rotation = Quaternion.LookRotation(direct);
 			GetComponent<Animator>().SetBool("run", false);
-			if (currentPokemon.obj==null)	trainer.ThrowPokemon(trainer.party.GetSlot(0).pokemon); //Only 1 pokemon is throwable
 		}
 		
 		/*if (currentPokemonObj!=null){

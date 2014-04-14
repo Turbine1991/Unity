@@ -167,7 +167,6 @@ public class Pokemon : Target {
 	}
 	public static int GetNumber(string name){
 		name = name.ToLower();
-		Debug.Log(name);
 		switch(name){
 		case "bulbasaur":	return 1;
 		case "charmander":	return 4;
