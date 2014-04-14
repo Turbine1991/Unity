@@ -8,7 +8,7 @@ public class CameraControl : MonoBehaviour {
 	bool pokemonActive = false;
 	public static float ax = 0;
 	public static float ay = 0;
-	Trainer trainer = null;
+	TrainerPlayer trainer = null;
 	Vector3 camPos = Vector3.zero;
 	float cameraZoom = 6;
 	public static bool releaseCursor = false;
@@ -80,7 +80,7 @@ public class CameraControl : MonoBehaviour {
 			}
 			else{
 				//focus on player
-				cameraFocus = trainer.transform.position+Vector3.up*2;
+				cameraFocus = trainer.obj.transform.position+Vector3.up*2;
 				Camera.main.transform.rotation = Quaternion.Euler(ax,ay,0);
 			}
 		}

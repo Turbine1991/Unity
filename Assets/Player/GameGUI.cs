@@ -212,8 +212,9 @@ public class GameGUI : MonoBehaviour {
 				if (Input.GetMouseButton(0) && !Player.click){
 					Player.click = true;
 					party.Select(slot.index);
-					if (Player.pokemon.obj!=null){
-						Player.pokemon.obj.GetComponent<PokemonObj>().Return();
+					var pokemonObj = Player.pokemon.obj;
+					if (pokemonObj != null){
+						pokemonObj.GetComponent<PokemonObj>().Return();
 						Player.trainer.ThrowPokemon(pokemon);
 					}
 				}

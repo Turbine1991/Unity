@@ -46,11 +46,13 @@ public class Pokeball : MonoBehaviour {
 	}
 
 	public static void ThrowPokeBall(Trainer trainer){
+		var trainerObj = trainer.GetTrainerBaseObj();
+
 		//find the nearest pokemon to capture, withing the correct direction I guess
 		float dist = 1000000;
 		GameObject pokemonOb = null;
 		foreach(GameObject poke in GameObject.FindGameObjectsWithTag("pokemon")){
-			Vector3 direct = trainer.transform.position-poke.transform.position;
+			Vector3 direct = trainerObj.transform.position-poke.transform.position;
 			if (direct.sqrMagnitude<dist){
 				dist = direct.sqrMagnitude;
 				pokemonOb = poke;
@@ -61,7 +63,7 @@ public class Pokeball : MonoBehaviour {
 		ball.transform.position = GameObject.Find("_PokeballHolder").transform.position;
 
 		if (pokemonOb!=null){
-			Vector3 direct = pokemonOb.transform.position - ball.transform.position;
+			Vector3 direct = trainerObj.transform.position - ball.transform.position;
 			ball.rigidbody.AddForce( direct.normalized*500+ Vector3.up * direct.magnitude/50);
 			ball.GetComponent<Pokeball>().trainer = trainer;
 		}

@@ -4,7 +4,7 @@ using System.Collections;
 public class PokemonDomesticated : MonoBehaviour {
 	public enum Orders {Heel, Idle, Charge}
 	public Orders currentOrder = Orders.Heel;
-	public Trainer trainer = null;
+	public Trainer trainer = null; //Will only cast to TrainerPlayer for now, will do have to a get object function specific to the MonoBehaviour TrainerPlayer and TrainerAI objects. (As they don't support multi-inheritance)
 	
 	bool letsGo = false;
 	PokemonObj pokemonObj;
@@ -21,7 +21,8 @@ public class PokemonDomesticated : MonoBehaviour {
 
 		switch(currentOrder){
 		case Orders.Heel:{
-			Vector3 direct = trainer.transform.position -transform.position;
+			var trainerPlayer = trainer as TrainerPlayer;
+			Vector3 direct = trainerPlayer.obj.transform.position - transform.position;
 			direct.y = 0;
 			if (letsGo){
 				transform.rotation = Quaternion.LookRotation(direct);

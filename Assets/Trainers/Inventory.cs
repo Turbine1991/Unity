@@ -87,8 +87,12 @@ public class Inventory
 			item.quantity -= quantity;
 		}
 		
-		if (item.quantity == 0) //If none are left in inventory, remove item from inventory
+		if (item.quantity == 0) { //If none are left in inventory, remove item from inventory
+			if (trainer.item.id == item.id) //If the currently selected item has been entirely used up, switch to another
+				selected = items[0];
+
 			items.Remove(item);
+		}
 
 		return result;
 	}

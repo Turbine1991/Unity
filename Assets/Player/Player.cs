@@ -6,14 +6,17 @@ public class Player : MonoBehaviour {
 	public static bool click = false;
 	static bool jumpCool = true;
 
-	public static Trainer trainer = null;
+	public static TrainerPlayer trainer = null;
 	public static Pokemon pokemon {get{return trainer.party.GetActivePokemon();} set{}}
 	public static bool pokemonActive = false;
 
 	public static GameGUI gamegui = new GameGUI();
 
 	void Start(){
-		trainer = GameObject.Find("Player").GetComponent<Trainer>();
+		//trainer = GameObject.Find("Player").GetComponent<Trainer>(); //Previously both the Unity Trainer object and the trainer class were combined
+		if (trainer == null)
+			trainer = new TrainerPlayer();
+
 		gameObject.AddComponent ("CameraControl");
 	}
 
