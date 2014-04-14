@@ -2,9 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class TrainerPlayer : Trainer { //Characteristics specific to the player
-	public TrainerObj obj;
+	public TrainerObjPlayer obj;
 
-	public TrainerPlayer(): base("Red") {
+	public TrainerPlayer(TrainerObjPlayer obj): base("Red") {
+		this.obj = obj;
 	}
 
 	public override MonoBehaviour GetTrainerBaseObj() {
@@ -12,7 +13,6 @@ public class TrainerPlayer : Trainer { //Characteristics specific to the player
 	}
 	
 	public override GameObject Instantiate(UnityEngine.Object resource) {
-		var tmp = TrainerObj.Instantiate(resource);
-		return (GameObject)(System.Object)tmp;
+		return (GameObject)TrainerObjPlayer.Instantiate(resource);
 	}
 }

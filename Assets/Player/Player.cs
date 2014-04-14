@@ -14,9 +14,7 @@ public class Player : MonoBehaviour {
 
 	void Start(){
 		//trainer = GameObject.Find("Player").GetComponent<Trainer>(); //Previously both the Unity Trainer object and the trainer class were combined
-		if (trainer == null)
-			trainer = new TrainerPlayer();
-
+		//trainer = new TrainerPlayer();
 		gameObject.AddComponent ("CameraControl");
 	}
 

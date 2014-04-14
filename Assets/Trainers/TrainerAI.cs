@@ -4,8 +4,8 @@ using System.Collections;
 public class TrainerAI : Trainer { //Characteristics specific to the NPC
 	public TrainerObjAI obj;
 
-	public TrainerAI(): base("Tom") {
-
+	public TrainerAI(TrainerObjAI obj): base("Tom") {
+		this.obj = obj;
 	}
 
 	public override MonoBehaviour GetTrainerBaseObj() {
@@ -13,6 +13,6 @@ public class TrainerAI : Trainer { //Characteristics specific to the NPC
 	}
 	
 	public override GameObject Instantiate(UnityEngine.Object resource) {
-		return (GameObject)(Object)TrainerObjAI.Instantiate(resource);
+		return (GameObject)TrainerObjAI.Instantiate(resource);
 	}
 }

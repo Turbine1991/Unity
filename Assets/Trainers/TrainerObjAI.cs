@@ -20,8 +20,7 @@ public class TrainerObjAI : MonoBehaviour
 	void Start ()
 	{
 		//trainer = GetComponent<Trainer>();
-		trainer = new TrainerAI();
-		trainer.obj = this;
+		trainer = new TrainerAI(this);
 	}
 	
 	void Update(){
