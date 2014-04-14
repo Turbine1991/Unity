@@ -39,6 +39,10 @@ public abstract class Trainer : Target {
 		return ball;
 	}
 
+	public void RecallPokemon() {
+		party.CaptureActive();
+	}
+
 	public void SetVelocity(Vector3 vel){
 		velocity = vel;
 

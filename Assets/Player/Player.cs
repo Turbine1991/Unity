@@ -71,6 +71,12 @@ public class Player : MonoBehaviour {
 		if (pokemon.pp <= 0){
 			pokemon.obj.Return();
 		}
+
+		//throw pokemon
+		if (!click && Input.GetKeyDown(KeyCode.Return)){
+			trainer.RecallPokemon();
+			click = true;
+		}
 	}
 
 	public void HandleTrainer() {
