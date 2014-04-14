@@ -27,7 +27,8 @@ public class TrainerObjAI : MonoBehaviour
 		switch(currentState){
 			
 		case States.Idle:{
-			Vector3 direct = transform.position - transform.position;
+			var trainerObj = Player.trainer.obj;
+			Vector3 direct = trainerObj.transform.position - transform.position;
 			if (direct.sqrMagnitude<10*10 && Vector3.Dot(direct, transform.forward)>0){
 				
 				Dialog.inDialog = true;
