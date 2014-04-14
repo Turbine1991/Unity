@@ -18,7 +18,7 @@
  * SelectPrev()                     :Slot              Select the previous occupied slot. Loops.                      :Occupied slot.
  * Swap(index1, index2)             :void              Swap two Pokemon slot positions.                               :N/A
  * GetPokemon(pokemon id)           :Pokemon           Retrieve a Pokemon with a certain id.                          :Pokemon with specified id.
- * ReleaseSelected()                :Pokemon           Will release active Pokeball and retrieve active Pokemon.      :Pokemon released
+ * ReleaseSelected()                :Pokeball          Will release active Pokeball and retrieve active Pokemon.      :Pokemon released
  * CaptureActive()                  :Pokemon           Will capture a release Pokemon, back into their ball.          :Pokemon captured
  * GetActivePokemon()               :Pokemon           Get the released Pokemon instance.                             :Pokemon released
  * IsActive(pokemon)                :bool              Verifies if a Pokemon has been released.                       :Release status of given Pokemon
@@ -28,6 +28,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 public class PokeParty
 {
@@ -157,16 +158,29 @@ public class PokeParty
 		return null;
 	}
 
-	public Pokemon ReleaseSelected() {
+	public Pokeball ReleaseSelected() {
 		CaptureActive(); //Capture if a Pokemon is already out
 
 		var release = GetActivePokemon();
 		if (release == null) {
 			var selected = GetSelectedPokemon();
 			if (selected != null) {
-				trainer.ThrowPokemon(selected);
-				active = selected;
-				return selected;
+				if (!selected.thrown) {
+					selected.thrown = true;
+
+					var transform = trainer.GetTrainerBaseObj().transform;
+					var ball = trainer.Instantiate(Resources.Load("Pokeball")).GetComponent<Pokeball>();
+
+					ball.transform.position = transform.position;
+					ball.rigidbody.AddForce((transform.forward * 2 + transform.up) * 400);
+
+					ball.pokemon = selected;
+					ball.trainer = trainer;
+					//gamegui.SetChatWindow(ball.GetComponent<Pokeball>().pokemon.GetName() + "! I choose you!");
+
+					active = selected;
+					return ball;
+				}
 			}
 		}
 

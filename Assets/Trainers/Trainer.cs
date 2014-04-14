@@ -33,20 +33,10 @@ public abstract class Trainer : Target {
 		return Target.TARGETS.TRAINER;
 	}
 
-	public void ThrowPokemon(Pokemon poke){
-		if (poke.thrown)	return;
+	public Pokeball ThrowPokeball(){
+		var ball = party.ReleaseSelected(); //Returns null if no Pokemon in party
 
-		var trainerObj = GetTrainerBaseObj();
-
-		poke.thrown = true;
-		GameObject ball = Instantiate(Resources.Load("Pokeball"));
-
-		ball.transform.position = trainerObj.transform.position;
-		ball.rigidbody.AddForce( (trainerObj.transform.forward*2+ trainerObj.transform.up)*400 );
-		var component = ball.GetComponent<Pokeball>();
-		component.pokemon = poke;
-		component.trainer = this;
-		//gamegui.SetChatWindow(ball.GetComponent<Pokeball>().pokemon.GetName() + "! I choose you!");
+		return ball;
 	}
 
 	public void SetVelocity(Vector3 vel){

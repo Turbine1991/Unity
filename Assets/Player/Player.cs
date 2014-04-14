@@ -90,8 +90,8 @@ public class Player : MonoBehaviour {
 		}
 
 		//throw pokemon
-		if (!click && Input.GetKey(KeyCode.Return)){
-			trainer.party.ReleaseSelected();
+		if (!click && Input.GetKeyDown(KeyCode.Return)){
+			trainer.ThrowPokeball();
 			click = true;
 		}
 		

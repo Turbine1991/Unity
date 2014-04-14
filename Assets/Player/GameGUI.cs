@@ -212,10 +212,10 @@ public class GameGUI : MonoBehaviour {
 			}
 			if (my<64 && mx>xpos && mx<xpos+64){ //This will only be called if the cursor lock is free
 				GUI.DrawTexture(new Rect(xpos+16,0,32,50), GUImgr.gradDown);
-				if (Input.GetMouseButton(0) && !Player.click){
+				if (Input.GetMouseButtonDown(0) && !Player.click){
 					Player.click = true;
 					party.Select(slot.index);
-					party.ReleaseSelected();
+					Player.trainer.ThrowPokeball();
 				}
 			}
 			
