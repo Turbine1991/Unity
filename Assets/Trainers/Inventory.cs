@@ -1,21 +1,22 @@
 /*
- * Independant inventory class instantiated for each trainer.
+ * Inventory
+ * Each trainer has their own independant inventory.
  * 
- * Core Function List:
- * bool         Add(id, quantity)               Add an item to the inventory, it will combine with any existing:    Whether there was enough capacity for the item.
- * int          AddGetRemainder(id, quantity)   Adds an item and if it doesn't fit, it'll fit as many as it can:    Returns the quantity left over.				
- * bool         Use(id, quantity, target)       Runs the events for using an item. Targets are: Trainer/Pokemon:    Whether it had another items to use and that it succeeded.
- * bool         Remove(id, quantity)            Removes a certain amount of items from the inventory.          :    Whether it has enough items to remove.
- * List<Item>   GetItems(ITEM_POCKET)           Gets a list of items in a specific pocket category.            :    List of items in pocket.
- * List<Item>   GetItems()                      Gets all items in inventory.                                   :    List of all items.
- * Item         GetItem(id)                     Gets the Inventory.Item inventory instance for that id.        :    Item instance.
- * int          GetQuantity(id)                 Gets the quantity of an item.                                  :    Quantity of item.
- * int          HasItem(id)                     Has an item of that id in inventory.                           :    Has item success.
- * int          HasItemCapacity(id, quantity)   Has enough room for additional quantities of a certain item.   :    Can fit a specified amount more of an item.
- * bool         HasCapacity()                   Has enough room for a new unique item.                         :    Can fit another kind of item in inventory.
- * void         Select()                        Select active item, could be used to hold 2D items visibly.    :    N/A
- * void         Transfer(ref Item)              Transfer an item into the inventory, from an Item instance.    :    Will set Item reference to null if no quantity is left
- * void         Transfer(Inventory)             Transfer all abled items from another inventory into this one. :    N/A
+ * Common Function List:
+ * Add(id, quantity)                :bool          Add an item to the inventory, it will combine with any existing    :Whether there was enough capacity for the item.
+ * AddGetRemainder(id, quantity)    :int           Adds an item and if it doesn't fit, it'll fit as many as it can    :Returns the quantity left over.				
+ * Use(id, quantity, target)        :bool          Runs the events for using an item. Targets are: Trainer/Pokemon    :Whether it had another items to use and that it succeeded.
+ * Remove(id, quantity)             :bool          Removes a certain amount of items from the inventory.              :Whether it has enough items to remove.
+ * GetItems(ITEM_POCKET)            :List<Item>    Gets a list of items in a specific pocket category.                :List of items in pocket.
+ * GetItems()                       :List<Item>    Gets all items in inventory.                                       :List of all items.
+ * GetItem(id)                      :Item          Gets the Inventory.Item inventory instance for that id.            :Item instance.
+ * GetQuantity(id)                  :int           Gets the quantity of an item.                                      :Quantity of item.
+ * HasItem(id)  					:int           Has an item of that id in inventory.                               :Has item success.
+ * HasItemCapacity(id, quantity) 	:int           Has enough room for additional quantities of a certain item.       :Can fit a specified amount more of an item.
+ * HasCapacity() 					:bool          Has enough room for a new unique item.                             :Can fit another kind of item in inventory.
+ * Select(id) 						:void          Select active item, could be used to hold 2D items visibly.        :N/A
+ * Transfer(ref Item) 				:void          Transfer an item into the inventory, from an Item instance.        :Will set Item reference to null if no quantity is left
+ * Transfer(Inventory)              :void          Transfer all abled items from another inventory into this one.     :N/A
  */
 
 using System.Collections;

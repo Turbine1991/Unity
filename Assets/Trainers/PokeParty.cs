@@ -1,3 +1,25 @@
+/*
+ * PokeParty
+ * Each trainer has their own party of Pokemon..
+ * 
+ * Common Function List:
+ * Count()                          :int               Count how many Pokemon are in the party                        :Number of Pokemon.
+ * HasPokemon()    					:bool              Has atleast one Pokemon to select                              :Returns the quantity left over.				
+ * GetSlots()                       :List<Slot>        Get the list of each Slot of a Pokemon                         :List of Slots.
+ * GetSlot(index)                   :Slot              Get a specific slot by index position.                         :Slot.
+ * HasSlot(index)                   :bool              Check if there's a slot at index position.                     :Whether Pokemon is in slot.
+ * GetActive()                      :Slot              Get the slot associated with the active selection.             :Retrieve the slot for Poke ball.
+ * IsActive(pokemon)                :Pokemon           Check if a Pokemon is currently active.                        :Whether Pokemon is selected.
+ * HasCapacity()                    :bool              Check if there's room in the party for another Pokemon.        :Whether there's room for another Pokemon.
+ * AddPokemon(pokemon)              :bool              Add a Pokemon to the party.                                    :Success of adding a Pokemon.
+ * Remove(index)                    :void              Remove a Pokemon from the party.                               :N/A.
+ * Select(index)                    :Slot              Select a Pokemon slot in party.                                :Success of finding and selecting a Pokemon.
+ * SelectNext()                     :Slot              Select the next occupied slot. Loops.                          :Occupied slot.
+ * SelectPrev()                     :Slot              Select the previous occupied slot. Loops.                      :Occupied slot.
+ * Swap(index1, index2)             :void              Swap two Pokemon slot positions.                               :N/A
+ * GetPokemon(pokemon id)           :Pokemon           Retrieve a Pokemon with a certain id.                          :Pokemon with specified id.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -56,12 +78,12 @@ public class PokeParty
 		return GetActivePokemon() == pokemon;
 	}
 	
-	public bool CanAddPokemon() {
+	public bool HasCapacity() {
 		return Count() + 1 < PARTY_MAX;
 	}
 	
 	public bool AddPokemon(Pokemon pokemon) {
-		if (!CanAddPokemon())
+		if (!HasCapacity())
 			return false;
 
 		var slot = new Slot(this, pokemon);
@@ -73,7 +95,7 @@ public class PokeParty
 		return true;
 	}
 
-	public void RemovePokemon(int index) {
+	public void Remove(int index) {
 		if (!HasSlot(index)) {
 			if (System.Diagnostics.Debugger.IsAttached)
 				throw new Exception(String.Format("Error: Slot '{0}' has is empty.", index));
