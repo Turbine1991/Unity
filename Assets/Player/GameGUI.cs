@@ -38,8 +38,11 @@ public class GameGUI : MonoBehaviour {
 			OpenChatWindow();
 		}
 
-		if (Player.pokemonActive && Player.pokemon.obj!=null){
-			Player.pokemon.obj.GetComponent<PokemonDomesticated>().BattleGUI();
+		var trainer = Player.trainer;
+		var party = trainer.party;
+		var active = party.GetActivePokemon();
+		if (party.HasActive()){
+			active.obj.GetComponent<PokemonDomesticated>().BattleGUI();
 			return;
 		}
 		
@@ -90,7 +93,6 @@ public class GameGUI : MonoBehaviour {
 		}
 		
 		ypos = 0;
-		var party = Player.trainer.party;
 		foreach(var slot in Player.trainer.party.GetSlots()){
 			var pokemon = slot.pokemon;
 

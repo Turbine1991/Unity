@@ -60,7 +60,6 @@ public class CameraControl : MonoBehaviour {
 
 	void LateUpdate(){
 		pokemon = Player.pokemon;
-		pokemonActive = Player.pokemonActive;
 		trainer = Player.trainer;
 		Quaternion camRot = transform.rotation;
 
@@ -69,7 +68,7 @@ public class CameraControl : MonoBehaviour {
 			Vector3 camFocus = Dialog.NPCobj.transform.position+Vector3.up;
 			transform.rotation = Quaternion.LookRotation(transform.position-camFocus);
 		}else{
-			if (pokemon!=null && pokemonActive && !releaseCursor) {
+			if (pokemon!=null && pokemon.IsActive() && !releaseCursor) {
 				//focus on current pokemon
 				cameraFocus = pokemon.obj.transform.position + Vector3.up;
 				transform.rotation = pokemon.obj.transform.rotation * Quaternion.Euler(ax,0,0);

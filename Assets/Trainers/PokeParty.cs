@@ -8,8 +8,8 @@
  * GetSlots()                       :List<Slot>        Get the list of each Slot of a Pokemon                         :List of Slots.
  * GetSlot(index)                   :Slot              Get a specific slot by index position.                         :Slot.
  * HasSlot(index)                   :bool              Check if there's a slot at index position.                     :Whether Pokemon is in slot.
- * GetActive()                      :Slot              Get the slot associated with the active selection.             :Retrieve the slot for Poke ball.
- * IsActive(pokemon)                :Pokemon           Check if a Pokemon is currently active.                        :Whether Pokemon is selected.
+ * GetSelected()                    :Slot              Get the slot associated with the active selection.             :Retrieve the slot for Poke ball.
+ * IsSelected(pokemon)              :Pokemon           Check if a Pokemon is currently active.                        :Whether Pokemon is selected.
  * HasCapacity()                    :bool              Check if there's room in the party for another Pokemon.        :Whether there's room for another Pokemon.
  * AddPokemon(pokemon)              :bool              Add a Pokemon to the party.                                    :Success of adding a Pokemon.
  * Remove(index)                    :void              Remove a Pokemon from the party.                               :N/A.
@@ -18,6 +18,11 @@
  * SelectPrev()                     :Slot              Select the previous occupied slot. Loops.                      :Occupied slot.
  * Swap(index1, index2)             :void              Swap two Pokemon slot positions.                               :N/A
  * GetPokemon(pokemon id)           :Pokemon           Retrieve a Pokemon with a certain id.                          :Pokemon with specified id.
+ * ReleaseSelected()                :Pokemon           Will release active Pokeball and retrieve active Pokemon.      :Pokemon released
+ * CaptureActive()                  :Pokemon           Will capture a release Pokemon, back into their ball.          :Pokemon captured
+ * GetActivePokemon()               :Pokemon           Get the released Pokemon instance.                             :Pokemon released
+ * IsActive(pokemon)                :bool              Verifies if a Pokemon has been released.                       :Release status of given Pokemon
+ * HasActive()                      :bool              Checks if a Pokemon is released.                               :Whether a Pokemon has been released
  */
 
 using System.Collections;
@@ -31,7 +36,9 @@ public class PokeParty
 	Trainer trainer; //Enables it to be usable by any trainer in multiplayer (independant)
 	List<Slot> slots;
 	int selected;
-	
+
+	public Pokemon active; //Pokemon out of Pokeball
+
 	public PokeParty(Trainer trainer) {
 		this.trainer = trainer;
 		slots = new List<Slot>();
@@ -61,7 +68,7 @@ public class PokeParty
 		return true;
 	}
 
-	public Slot GetActive() {
+	public Slot GetSelected() {
 		if (selected == -1)
 			return null;
 
@@ -69,13 +76,13 @@ public class PokeParty
 		return (slot != null) ? slot : null;
 	}
 	
-	public Pokemon GetActivePokemon() {
-		var slot = GetActive();
+	public Pokemon GetSelectedPokemon() {
+		var slot = GetSelected();
 		return (slot != null) ? slot.pokemon : null;
 	}
 	
-	public bool IsActive(Pokemon pokemon) {
-		return GetActivePokemon() == pokemon;
+	public bool IsSelected(Pokemon pokemon) {
+		return GetSelectedPokemon() == pokemon;
 	}
 	
 	public bool HasCapacity() {
@@ -122,13 +129,11 @@ public class PokeParty
 	}
 	
 	public Slot SelectNext() {
-		var index = (selected - 1) % Count();  //Loop slot index when beyond bounds
-		return Select(index);
+		return Select(++selected % Count());  //Loop slot index when beyond bounds
 	}
 	
 	public Slot SelectPrev() {
-		var index = ((selected - 1) + Count() - 1) % Count();  //Loop slot index when below bounds
-		return Select(index);
+		return Select((--selected < 0) ? Count() - 1 : selected);
 	}
 	
 	public void Swap(int index1, int index2) {
@@ -153,6 +158,48 @@ public class PokeParty
 		return null;
 	}
 
+	public Pokemon ReleaseSelected() {
+		CaptureActive(); //Capture if a Pokemon is already out
+
+		var release = GetActivePokemon();
+		if (release == null) {
+			var selected = GetSelectedPokemon();
+			if (selected != null) {
+				trainer.ThrowPokemon(selected);
+				return selected;
+			}
+		}
+
+		return null;
+	}
+
+	public Pokemon CaptureActive() {
+		var capture = GetActivePokemon();
+		if (capture != null) {
+			capture.obj.Return();
+			active = null;
+
+			return capture;
+		}
+
+		return null;
+	}
+
+	public Pokemon GetActivePokemon() {
+		if (active == null || (active != null && active.obj == null))
+			return null;
+
+		return active;
+	}
+
+	public bool IsActive(Pokemon pokemon) {
+		return (active != null) ? active == pokemon : false;
+	}
+
+	public bool HasActive() {
+		return GetActivePokemon() != null;
+	}
+	
 	public class Slot {
 		public int index {get{return pokeParty.GetSlots().FindIndex(v => (v != null) ? v == this : false);}  set{}} //Directly refer to List<> for the index
 		public Pokemon pokemon;

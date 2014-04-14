@@ -18,5 +18,7 @@ public class TrainerPlayer : Trainer { //Characteristics specific to the player
 
 	public override void Update() {
 		base.Update();
+
+		UnityEngine.Debug.Log(Player.pokemon);
 	}
 }

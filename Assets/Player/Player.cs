@@ -8,7 +8,6 @@ public class Player : MonoBehaviour {
 
 	public static TrainerPlayer trainer = null;
 	public static Pokemon pokemon {get{return trainer.party.GetActivePokemon();} set{}}
-	public static bool pokemonActive = false;
 
 	public static GameGUI gamegui = new GameGUI();
 
@@ -19,6 +18,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update(){
+		var party = trainer.party;
+
 		//do nothing if in dialog
 		if (Dialog.inDialog){
 			Screen.lockCursor = false;
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour {
 		}
 
 		//menu
-		if ((GameGUI.menuActive && !pokemonActive) || CameraControl.releaseCursor) {
+		if ((GameGUI.menuActive && !party.HasActive()) || CameraControl.releaseCursor) {
 			Screen.lockCursor = false;
 			Screen.showCursor = true;
 		} else {
@@ -38,9 +39,9 @@ public class Player : MonoBehaviour {
 
 		//player control
 		click = CanClick();
-		if (pokemonActive && pokemon.obj!=null){
+		if (party.HasActive()) {
 			HandlePokemon();
-		}else{
+		} else {
 			HandleTrainer();
 			//move trainer
 			Vector3 vel = Quaternion.Euler(0,CameraControl.ay,0) * (Vector3.forward*Input.GetAxis("Vertical") + Vector3.right*Input.GetAxis("Horizontal"));
@@ -67,17 +68,16 @@ public class Player : MonoBehaviour {
 		if(!Input.GetButton("Jump"))	jumpCool = true;
 		
 		pokemon.pp -= Time.deltaTime/500;
-		if (pokemon.pp<=0){
-			pokemonActive = false;
+		if (pokemon.pp <= 0){
 			pokemon.obj.Return();
 		}
 	}
 
 	public void HandleTrainer() {
-		//swap pokemon
-		if (!click && !pokemonActive){
-			Pokemon oldPokemonSelection = pokemon;
-			
+		var party = trainer.party;
+
+		//select pokemon
+		if (!click && !trainer.party.HasActive()){
 			for(int i = 1; i <= trainer.party.Count(); i++) {
 				if (Rebind.GetInputDown("SELECT_POKE_PARTY_" + i))
 					trainer.party.Select(i - 1);
@@ -87,37 +87,19 @@ public class Player : MonoBehaviour {
 				trainer.party.SelectPrev();
 			else if (Rebind.GetInputDown("SELECT_POKE_NEXT"))
 				trainer.party.SelectNext();
-			
-			if (oldPokemonSelection!=pokemon){
-				click = true;
-				if (oldPokemonSelection.obj!=null){
-					oldPokemonSelection.obj.Return();
-					trainer.ThrowPokemon(pokemon);
-				}
-			}
 		}
 
 		//throw pokemon
 		if (!click && Input.GetKey(KeyCode.Return)){
-			if (pokemon != null && pokemon.obj==null){
-				trainer.ThrowPokemon(pokemon);
-			}else{
-				if (pokemonActive){
-					pokemon.obj.Return();
-					pokemonActive = false;
-				}else{
-					pokemonActive = true;
-				}
-			}
+			trainer.party.ReleaseSelected();
 			click = true;
 		}
 		
 		//activate menu
 		if (Input.GetKeyDown(KeyCode.Escape) && !click){
-			if (pokemonActive)
-				pokemonActive = false;
-			else
+			if (!party.HasActive())
 				GameGUI.menuActive = !GameGUI.menuActive;
+
 			click = true;
 		}
 		

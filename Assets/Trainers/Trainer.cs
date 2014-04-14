@@ -7,8 +7,8 @@ public abstract class Trainer : Target {
 
 	public PokeParty party;
 	public Inventory inventory;
-	public Inventory.Item item {get{return inventory.selected;} set{}}
 
+	public Inventory.Item item {get{return inventory.selected;} set{}}
 	Vector3 velocity = Vector3.zero;
 
 	public Trainer(string name): base() { //Will give to both the player and the npc (just like in multiplayer)
@@ -18,9 +18,9 @@ public abstract class Trainer : Target {
 		inventory = new Inventory(this);
 
 		//kanto starters, why not
-		party.AddPokemon(new Pokemon(1, true));
-		party.AddPokemon(new Pokemon(4, true));
-		party.AddPokemon(new Pokemon(7, true));
+		party.AddPokemon(new Pokemon(1, null, true));
+		party.AddPokemon(new Pokemon(4, null, true));
+		party.AddPokemon(new Pokemon(7, null, true));
 		Pokedex.states [1] = Pokedex.State.Captured;
 		Pokedex.states [4] = Pokedex.State.Captured;
 		Pokedex.states [7] = Pokedex.State.Captured;
