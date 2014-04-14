@@ -63,12 +63,13 @@ public class TrainerObjAI : MonoBehaviour
 			if (direct.sqrMagnitude>1)	transform.position += direct;
 			currentPokemon = trainer.party.GetActivePokemon();
 			var party = trainer.party;
+			bool throwPokeball = false;
 
 			if (!party.HasActive()){
 				var enemyObj = enemyTrainer.GetTrainerBaseObj();
 
+				throwPokeball = true;
 				party.Select(2);
-				trainer.ThrowPokeball();
 				direct = enemyObj.transform.position - transform.position;
 				//direct = currentPokemon.obj.transform.position-transform.position;
 				//trainer.ThrowPokemon(trainer.party.GetActivePokemon()); //Only 1 pokemon is throwable
@@ -80,6 +81,9 @@ public class TrainerObjAI : MonoBehaviour
 			direct.y = 0;
 			transform.rotation = Quaternion.LookRotation(direct);
 			GetComponent<Animator>().SetBool("run", false);
+
+			if (throwPokeball)
+				trainer.ThrowPokeball();
 		}
 		
 		/*if (currentPokemonObj!=null){
