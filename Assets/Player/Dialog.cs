@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿/*
+ * Re-doing this system to become an event based, orderless, multi-choice dialogue system.
+ * Alternative messages may also be added for either random or conditional selection.
+ * It'll be orderless and multi-choice, decisions can take a different path to the consecutive format.
+ * Choices may have availability specified through conditional evaluation.
+ * Avatars for npc's will be supported, even if not initially used.
+ * 
+ * This will not have any dependencies on an interface.
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class Dialog{
