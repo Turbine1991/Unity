@@ -96,9 +96,7 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
-		
-		var itemsCount = trainer.inventory.items.Count;
-		
+
 		//throw pokemon
 		if (!click && Input.GetKey(KeyCode.Return)){
 			if (pokemon != null && pokemon.obj==null){

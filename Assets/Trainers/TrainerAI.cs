@@ -16,7 +16,7 @@ public class TrainerAI : Trainer { //Characteristics specific to the NPC
 		return (GameObject)TrainerObjAI.Instantiate(resource);
 	}
 
-	public void Update() {
+	public override void Update() {
 		base.Update();
 	}
 }

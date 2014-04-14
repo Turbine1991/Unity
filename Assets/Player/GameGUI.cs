@@ -32,9 +32,9 @@ public class GameGUI : MonoBehaviour {
 			return;
 		}
 
-		Dialog.doneDialog = false;
+		Dialog.doneDialog = false; //No game logic should be in the interface code
 
-		if(chatActive){
+		if (chatActive){
 			OpenChatWindow();
 		}
 
@@ -106,14 +106,14 @@ public class GameGUI : MonoBehaviour {
 	}
 	
 	void MultiplayerWindow(){
-		float mx = Input.mousePosition.x;
-		float my = Screen.height-Input.mousePosition.y;
+		////float mx = Input.mousePosition.x;
+		////float my = Screen.height-Input.mousePosition.y;
 
 		float ypos = 0;
 		GUI.DrawTexture(new Rect(0,ypos,300,200), GUImgr.gradRight);
 
-		ypos+=20;
-		if (Network.peerType==NetworkPeerType.Disconnected){
+		ypos += 20;
+		if (Network.peerType == NetworkPeerType.Disconnected){
 			GUI.Label(new Rect(20, ypos, 200,25), "Not connected");
 		}
 	}

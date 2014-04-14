@@ -10,9 +10,9 @@ public class Dialog{
 	public static bool doneDialog = false;
 
 	public static void GUIWindow(){
-		if (!Player.click){
+		if (Player.click){
 			if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.Space)){
-				doneDialog = true;
+        		doneDialog = true;
 			}
 		}
 

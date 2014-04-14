@@ -42,7 +42,7 @@ public class Pokemon : Target {
 	}
 	
 	public Pokemon(int number, bool isPlayer, int level){
-		Debug.Log("New "+GetName(number));
+		////Debug.Log("New "+GetName(number));
 		this.number = number;
 		this.isPlayer = isPlayer;
 		name = GetName(number);

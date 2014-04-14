@@ -16,7 +16,7 @@ public class TrainerPlayer : Trainer { //Characteristics specific to the player
 		return (GameObject)TrainerObjPlayer.Instantiate(resource);
 	}
 
-	public void Update() {
+	public override void Update() {
 		base.Update();
 	}
 }

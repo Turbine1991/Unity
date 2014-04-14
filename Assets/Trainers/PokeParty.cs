@@ -32,6 +32,13 @@ public class PokeParty
 		return GetSlots()[index]; 
 	}
 
+	public bool HasSlot(int index) {
+		if (GetSlot(index) == null)
+			return false;
+
+		return true;
+	}
+
 	public Slot GetActive() {
 		if (selected == -1)
 			return null;
@@ -67,7 +74,13 @@ public class PokeParty
 	}
 
 	public void RemovePokemon(int index) {
-		var slot = GetSlot(index);
+		if (!HasSlot(index)) {
+			if (System.Diagnostics.Debugger.IsAttached)
+				throw new Exception(String.Format("Error: Slot '{0}' has is empty.", index));
+			else
+				return; //Ignore the action
+		}
+
 		slots.RemoveAt(index);
 
 		if (selected == index) //If the current Pokemon was removed, select the previous. (If there are none left, it will set it correctly to -1)
@@ -117,7 +130,7 @@ public class PokeParty
 
 		return null;
 	}
-	
+
 	public class Slot {
 		public int index {get{return pokeParty.GetSlots().FindIndex(v => (v != null) ? v == this : false);}  set{}} //Directly refer to List<> for the index
 		public Pokemon pokemon;
