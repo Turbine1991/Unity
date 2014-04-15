@@ -165,7 +165,7 @@ public class PokeParty
 		if (release == null) {
 			var selected = GetSelectedPokemon();
 			if (selected != null) {
-				//if (!selected.thrown) {
+				if (!selected.thrown) {
 					selected.thrown = true;
 
 					var transform = trainer.GetTrainerBaseObj().transform;
@@ -180,7 +180,7 @@ public class PokeParty
 
 					active = selected;
 					return ball;
-				//}
+				}
 			}
 		}
 

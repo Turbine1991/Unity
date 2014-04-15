@@ -42,7 +42,8 @@ public class GameGUI : MonoBehaviour {
 		var party = trainer.party;
 		var active = party.GetActivePokemon();
 		if (party.HasActive()){
-			active.obj.GetComponent<PokemonDomesticated>().BattleGUI();
+			//obj.GetComponent<PokemonDomesticated>()
+			BattleGUI(active.obj.GetComponent<PokemonDomesticated>());
 			return;
 		}
 		
@@ -309,6 +310,63 @@ public class GameGUI : MonoBehaviour {
 			ypos += 25;
 			GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 			GUI.Label(new Rect(200,ypos,width,50),Player.trainer.item.data.description);
+		}
+	}
+
+	public void BattleGUI(PokemonDomesticated domestic){ //Quick move
+		var pokemonObj = domestic.pokemonObj;
+		var pokemon = pokemonObj.pokemon;
+
+		GUI.DrawTexture(new Rect(0,Screen.height-90,200,100), GUImgr.gradRight);
+		float ypos = Screen.height-85;
+		GUI.Label(new Rect(10,ypos,200,20), pokemon.name+" lvl"+pokemon.level.ToString());
+		
+		//stats
+		ypos+=20;
+		GUI.Label(new Rect(10,ypos,200,20), "HP");
+		GUImgr.DrawBar(new Rect(35,ypos+5,200,10), pokemon.hp, GUImgr.hp);
+		
+		ypos+=20;
+		GUI.Label(new Rect(10,ypos,200,20), "PP");
+		GUImgr.DrawBar(new Rect(35,ypos+5,200,10), pokemon.pp, GUImgr.pp);
+		
+		ypos+=20;
+		GUI.Label(new Rect(10,ypos,200,20), "XP");
+		GUImgr.DrawBar(new Rect(35,ypos+5,200,10), pokemon.xp, GUImgr.xp);
+		
+		//current target
+		if (pokemonObj.enemy!=null){
+			if (pokemonObj.enemy.pokemon!=null){
+				GUI.DrawTexture(new Rect(0,0,200,60), GUImgr.gradRight);
+				ypos = 5;
+				GUI.Label(new Rect(10,ypos,200,20), pokemonObj.enemy.name+" lvl"+pokemonObj.enemy.pokemon.level.ToString());
+				ypos+=20;
+				GUI.Label(new Rect(10,ypos,200,20), "HP");
+				GUImgr.DrawBar(new Rect(35,ypos+5,200,10), pokemonObj.enemy.pokemon.hp, GUImgr.hp);;
+			}
+		}
+		
+		//moves
+		float height = pokemon.moves.Count*40+10;
+		GUI.DrawTexture(new Rect(Screen.width-200,Screen.height-height,200,height), GUImgr.gradLeft);
+		ypos = Screen.height-40;
+		float xpos = Screen.width-150;
+		int moveN = pokemonObj.pokemon.moves.Count;
+		foreach(Move move in pokemon.moves){
+			GUI.Label(new Rect(xpos,ypos,200,20), moveN.ToString()+" - "+move.moveType.ToString());
+			GUImgr.DrawBar(new Rect(xpos,ypos+20,100,5), move.cooldown, GUImgr.pp);
+			ypos -= 40;
+			bool useMove = false;
+			if (Player.click && pokemon.trainer != null){
+				for(int i = 1; i <= pokemon.trainer.party.Count(); i++) {
+					if (Rebind.GetInputDown("SELECT_POKE_PARTY_" + moveN))
+						useMove=true;
+				}
+			}
+			if (useMove){
+				pokemonObj.UseMove(transform.forward, move);
+			}
+			moveN--;
 		}
 	}
 	
